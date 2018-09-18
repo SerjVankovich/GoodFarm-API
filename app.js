@@ -2,10 +2,15 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const passport = require('passport')
+
 require('./api/db/db')
+require('./api/config/passport')
 
 var indexRouter = require('./api/routes/index');
 var usersRouter = require('./api/routes/users');
+const setsRouter = require('./api/routes/sets');
+const milkRouter = require('./api/routes/milk');
 
 var app = express();
 const cors = require('cors')
@@ -20,10 +25,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
 app.use(cors())
+
+app.use(passport.initialize())
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/sets', setsRouter);
+app.use('/milk', milkRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

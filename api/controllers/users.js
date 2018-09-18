@@ -20,22 +20,24 @@ module.exports.getAllUsers = (req, res) => {
 };
 
 module.exports.createNewUser = (req, res) => {
+  const { body: {name, email, phone, city, street, house, flat, floor, entrance, comment, price, items} } = req
+  console.log(req.body)
   Users.create(
     {
-      name: req.body.name,
-      email: req.body.email,
-      phone: req.body.phone,
-      city: req.body.city,
-      street: req.body.street,
-      house: req.body.house,
-      flat: checkAndParseInt(req.body.flat),
-      floor: checkAndParseInt(req.body.floor),
-      entrance: checkAndParseInt(req.body.entrance),
-      comment: req.body.comment,
+      name,
+      email,
+      phone,
+      city,
+      street,
+      house,
+      flat: checkAndParseInt(flat),
+      floor: checkAndParseInt(floor),
+      entrance: checkAndParseInt(entrance),
+      comment,
       activeOrders: [
         {
-          price: checkAndParseFloat(req.body.price),
-          items: req.body.items
+          price: checkAndParseFloat(price),
+          items
         }
       ]
     },

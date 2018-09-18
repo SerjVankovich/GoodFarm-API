@@ -6,6 +6,9 @@ mongoose.connect('mongodb://localhost/goodfarm')
     })
     .catch((err) => {
         console.log(err)
-    })
+    });
 
-require('./models/users')
+require('./models/users');
+require('./models/sets');
+require('./models/seller');
+require('./models/milk');
