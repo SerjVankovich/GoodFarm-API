@@ -12,3 +12,6 @@ require('./models/users');
 require('./models/sets');
 require('./models/seller');
 require('./models/milk');
+require('./models/bread');
+require('./models/meatFish');
+require('./models/vegFruits');
