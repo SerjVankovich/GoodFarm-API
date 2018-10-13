@@ -91,14 +91,14 @@ module.exports.updateUser = (req, res) => {
 };
 
 const checkAndParseInt = str => {
-  if (str == undefined) {
+  if (str === undefined) {
     return null;
   }
   return parseInt(str);
 };
 
 const checkAndParseFloat = str => {
-  if (str == "undefined") {
+  if (str === "undefined") {
     return null;
   }
   return parseFloat(str);

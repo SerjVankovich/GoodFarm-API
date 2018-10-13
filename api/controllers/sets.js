@@ -1,7 +1,10 @@
+
 const mongoose = require('mongoose');
 const sendJsonResponse = require('../sendJsonResponse').sendJSONResponse;
 const imagemin = require('imagemin');
 const imageminPngQuant = require('imagemin-pngquant');
+const updateOne = require("./defaultController").updateOne;
+const deleteOne = require("./defaultController").deleteOne;
 
 const Sets = mongoose.model('Set');
 
@@ -57,13 +60,9 @@ module.exports.addSet = (req, res) => {
             })
         })
     });
-
-    //console.log(set);
-    /*console.log(__dirname.split(" ").join("\\ "));
-
-    const imageData = fs.readFileSync(`${__dirname}/images/${req.body.name.split(" ").join('_').toLowerCase()}.png`);
-    console.log(imageData);
-
-    set.image = imageData; */
-
 };
+
+
+module.exports.deleteSet = deleteOne(Sets);
+
+module.exports.updateSet = updateOne(Sets);

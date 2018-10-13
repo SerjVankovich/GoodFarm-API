@@ -13,7 +13,7 @@ const validResults = res => (err, data) => {
 
 };
 
-const createObj = (model, data, res) => {
+const createObj = model => (data, res) => {
     model.create(data, (err, milk) => {
         if (err) return sendJsonResponse(res, 400, err);
 
@@ -23,7 +23,7 @@ const createObj = (model, data, res) => {
     })
 };
 
-module.exports.getAll = (req, res, model) => {
+module.exports.getAll = model => (req, res) => {
     const qs = req.query.name;
 
     if (qs !== undefined) {
@@ -37,7 +37,7 @@ module.exports.getAll = (req, res, model) => {
     }
 };
 
-module.exports.addOne = (req, res, model) => {
+module.exports.addOne = model => (req, res) => {
     const data = req.body;
     if (data.image === undefined) {
         return createObj(model, data, res)
@@ -52,4 +52,45 @@ module.exports.addOne = (req, res, model) => {
 
         createObj(model, data, res)
     })
+};
+
+module.exports.deleteOne = model => (req, res) =>{
+    const { id } = req.params;
+    if (!id) return sendJsonResponse(res, 404, {message: "No ID param in query"})
+
+    model
+        .remove({ _id: id })
+        .exec((err, product) => {
+            if (err) return sendJsonResponse(res, 400, err);
+
+            return sendJsonResponse(res, 200, product)
+        })
+};
+
+module.exports.updateOne = model => (req, res) => {
+    const { id } = req.params;
+
+    if (!id) return sendJsonResponse(res, 404, {message: "No ID param in query"});
+
+    model
+        .findById(id)
+        .exec((err, obj) => {
+            if (err) return sendJsonResponse(res, 400, err);
+            if (!obj) {
+                return sendJsonResponse(res, 400, {message: "Set not found"})
+            }
+
+            mapPropsToModel(req.body, obj);
+            obj.save((err, set) => {
+                if (err) return sendJsonResponse(res, 400, err);
+
+                return sendJsonResponse(res, 200, set)
+            })
+        })
+};
+
+const mapPropsToModel = (obj, model) => {
+    for (let key in obj) {
+        model[key] = obj[key]
+    }
 };
